@@ -1,6 +1,6 @@
 # ejemplo-2025-D
 
-```c++
+```
 using namespace std;
 ```
 
