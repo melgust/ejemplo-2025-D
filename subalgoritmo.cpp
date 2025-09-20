@@ -59,7 +59,7 @@ string inverse(string text) {
 }
 
 int countVowels(string text) {
-    int count;
+    int count = 0;
     for (int i = 0; i < text.length(); i++)
     {
         for (int j = 0; j < VOWELS.length(); j++)
@@ -76,7 +76,7 @@ int countVowels(string text) {
 }
 
 int countConsonants(string text) {
-    int count;
+    int count = 0;
     for (int i = 0; i < text.length(); i++)
     {
         for (int j = 0; j < CONSONANTS.length(); j++)
@@ -93,7 +93,7 @@ int countConsonants(string text) {
 }
 
 int countSymbols(string text) {
-    int count;
+    int count = 0;
     for (int i = 0; i < text.length(); i++)
     {
         for (int j = 0; j < SYMBOLS.length(); j++)
