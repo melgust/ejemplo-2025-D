@@ -4,6 +4,7 @@
         "vector": "cpp",
         "string_view": "cpp",
         "ostream": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "fstream": "cpp"
     }
 }
