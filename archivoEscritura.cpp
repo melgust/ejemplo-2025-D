@@ -13,33 +13,33 @@ int countCharacter(string, string);
 
 
 int main() {
-    fstream file("text.txt");
-	if (!file.is_open()) {
+    fstream readingFile("text.txt");
+	if (!readingFile.is_open()) {
         cout << "No se encontro o no se pudo abrir el archivo a leer" << endl;
         return 0;
     }
-    fstream fileWritable("out.txt", ios::out);
-    if (!fileWritable.is_open()) {
+    fstream writingFile("out.txt", ios::out);
+    if (!writingFile.is_open()) {
         cout << "No se encontro o no se pudo abrir el archivo para escribir" << endl;
         return 0;
     }
     string line;
-    while (getline(file, line))
+    while (getline(readingFile, line))
     {
-        fileWritable << line << endl;
-        fileWritable << "Vocales: ";
+        writingFile << line << endl;
+        writingFile << "Vocales: ";
         line = removeDuplicates(line);
         int total = countCharacter(line, VOWELS);
-        fileWritable << "\tTotal: " << total;
-        fileWritable << "\nConsonantes: ";
+        writingFile << "\tTotal: " << total;
+        writingFile << "\nConsonantes: ";
         total = countCharacter(line, CONSONANTS);
-        fileWritable << "\tTotal: " << total;
-        fileWritable << "\nSimbolos: ";
+        writingFile << "\tTotal: " << total;
+        writingFile << "\nSimbolos: ";
         total = countCharacter(line, SYMBOLS);
-        fileWritable << "\tTotal: " << total <<endl;
+        writingFile << "\tTotal: " << total <<endl;
     }
-    file.close();
-    fileWritable.close();
+    readingFile.close();
+    writingFile.close();
     return 0;
 }
 
