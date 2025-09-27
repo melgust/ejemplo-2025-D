@@ -8,11 +8,11 @@ int add(int, int);
 int multiply(int, int);
 void procedureAddition(int, int);
 string inverse(string);
-int countVowels(string);
-int countConsonants(string);
-int countSymbols(string);
+int countCharacter(string, string);
+string removeDuplicates(string);
 
-int main() {
+int main()
+{
     int value, value2;
     cout << "Ingrese el primer valor: ";
     cin >> value;
@@ -29,42 +29,57 @@ int main() {
     cout << "Escriba una oracion: ";
     cin.ignore();
     getline(cin, text);
-    cout << "El texto tiene: " << countVowels(text) << " vocales ";
-    cout << "El texto tiene: " << countConsonants(text) << " consonantes ";
-    cout << "El texto tiene: " << countSymbols(text) << " simbolos ";
+    cout << "Los tipos de caracteres son: \n";
+    cout << "Vocales: ";
+    text = removeDuplicates(text);
+    int total = countCharacter(text, VOWELS);
+    cout << "\tTotal: " << total;
+    cout << "\nConsonantes: ";
+    total = countCharacter(text, CONSONANTS);
+    cout << "\tTotal: " << total;
+    cout << "\nSimbolos: ";
+    total = countCharacter(text, SYMBOLS);
+    cout << "\tTotal: " << total;
+    cout << endl;
     return 0;
 }
 
-int add(int numberOne, int numberTwo) {
+int add(int numberOne, int numberTwo)
+{
     int result = numberOne + numberTwo;
     return result;
 }
 
-int multiply(int numberOne, int numberTwo) {
+int multiply(int numberOne, int numberTwo)
+{
     return numberOne * numberTwo;
 }
 
-void procedureAddition(int numberOne, int numberTwo) {
+void procedureAddition(int numberOne, int numberTwo)
+{
     int result = numberOne + numberTwo;
     cout << "Suma: " << result;
 }
 
-string inverse(string text) {
+string inverse(string text)
+{
     string tmp = "";
     for (int i = text.length() - 1; i >= 0; i--)
     {
-        tmp =+ text[i];
+        tmp = +text[i];
     }
     return tmp;
 }
 
-int countVowels(string text) {
+int countCharacter(string text, string characters)
+{
     int count = 0;
     for (int i = 0; i < text.length(); i++)
     {
-        for (int j = 0; j < VOWELS.length(); j++)
+        for (int j = 0; j < characters.length(); j++)
         {
-            if (text[i] == VOWELS[j]) {
+            if (text[i] == characters[j])
+            {
                 count++;
                 cout << text[i];
                 break;
@@ -72,39 +87,29 @@ int countVowels(string text) {
         }
     }
     cout << endl;
+    characters = "Los caracteres utilizados para este conteo fueron: " + characters;
+    cout << characters << endl;
     return count;
 }
 
-int countConsonants(string text) {
-    int count = 0;
+string removeDuplicates(string text)
+{
+    string tmp = "";
     for (int i = 0; i < text.length(); i++)
     {
-        for (int j = 0; j < CONSONANTS.length(); j++)
+        bool found = false;
+        for (int j = 0; j < tmp.length(); j++)
         {
-            if (text[i] == CONSONANTS[j]) {
-                count++;
-                cout << text[i];
+            if (text[i] == tmp[j])
+            {
+                found = true;
                 break;
             }
         }
-    }
-    cout << endl;
-    return count;
-}
-
-int countSymbols(string text) {
-    int count = 0;
-    for (int i = 0; i < text.length(); i++)
-    {
-        for (int j = 0; j < SYMBOLS.length(); j++)
+        if (!found)
         {
-            if (text[i] == SYMBOLS[j]) {
-                count++;
-                cout << text[i];
-                break;
-            }
+            tmp += text[i];
         }
     }
-    cout << endl;
-    return count;
+    return tmp;
 }
