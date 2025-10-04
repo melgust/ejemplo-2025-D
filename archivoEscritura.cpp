@@ -3,85 +3,52 @@
 #include <fstream>
 using namespace std;
 
-string globalTmp;
-string VOWELS = "aeiou";
-string CONSONANTS = "bcdfghjklmnpqrstvwxyz";
-string SYMBOLS = "!@#$%^&*()_+=-][{};':<>,./?|";
+string ALFABETO = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-string removeDuplicates(string);
-int countCharacter(string, string);
-
+char cifradoCesar(char, int);
 
 int main() {
-    fstream readingFile("text.txt");
+    fstream readingFile("texto.txt");
 	if (!readingFile.is_open()) {
         cout << "No se encontro o no se pudo abrir el archivo a leer" << endl;
         return 0;
     }
-    fstream writingFile("out.txt", ios::out);
+    string line;
+    getline(readingFile, line);
+    string nuevaCadena = "";
+    for (int i = 0; i < line.length(); i++)
+    {
+        char letraActual = line[i];
+        char letra = cifradoCesar(letraActual, 5);
+        nuevaCadena = nuevaCadena + letra;
+    }
+    fstream writingFile("salida.txt", ios::out);
     if (!writingFile.is_open()) {
         cout << "No se encontro o no se pudo abrir el archivo para escribir" << endl;
         return 0;
     }
-    string line;
-    while (getline(readingFile, line))
-    {
-        writingFile << line << endl;
-        writingFile << "Vocales: ";
-        line = removeDuplicates(line);
-        int total = countCharacter(line, VOWELS);
-        writingFile << "\tTotal: " << total;
-        writingFile << "\nConsonantes: ";
-        total = countCharacter(line, CONSONANTS);
-        writingFile << "\tTotal: " << total;
-        writingFile << "\nSimbolos: ";
-        total = countCharacter(line, SYMBOLS);
-        writingFile << "\tTotal: " << total <<endl;
-    }
+    writingFile << nuevaCadena << endl;
     readingFile.close();
     writingFile.close();
     return 0;
 }
 
-int countCharacter(string text, string characters)
-{
-    int count = 0;
-    for (int i = 0; i < text.length(); i++)
+char cifradoCesar(char letra, int desplazamiento){
+    char letraMayuscula = toupper(letra);
+    int nuevaPosicion = 0;
+    for (int i = 0; i < ALFABETO.length(); i++)
     {
-        for (int j = 0; j < characters.length(); j++)
-        {
-            if (text[i] == characters[j])
-            {
-                count++;
-                cout << text[i];
-                break;
-            }
+        char letraAlfabeto = ALFABETO[i];
+        if (letraAlfabeto == letraMayuscula) {
+            nuevaPosicion = (i + desplazamiento) % 26;
         }
     }
-    cout << endl;
-    characters = "Los caracteres utilizados para este conteo fueron: " + characters;
-    cout << characters << endl;
-    return count;
-}
-
-string removeDuplicates(string text)
-{
-    string tmp = "";
-    for (int i = 0; i < text.length(); i++)
+    for (int i = 0; i < ALFABETO.length(); i++)
     {
-        bool found = false;
-        for (int j = 0; j < tmp.length(); j++)
-        {
-            if (text[i] == tmp[j])
-            {
-                found = true;
-                break;
-            }
-        }
-        if (!found)
-        {
-            tmp += text[i];
+        if (i == nuevaPosicion) {
+            letra = ALFABETO[i];
+            break;
         }
     }
-    return tmp;
+    return letra;
 }
