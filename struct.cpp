@@ -1,6 +1,12 @@
 #include <iostream>
 #include <string.h>
+#include <fstream>
+#include <string>
+#include <sstream>
 using namespace std;
+
+void saveStudentsToFile(Student[], int, string&);
+int loadStudentsFromFile(Student[], int, string&);
 
 typedef struct 
 {
@@ -53,4 +59,64 @@ int main()
         cout << "Carne: " << student.carne.code << "-" << student.carne.year << "-" << student.carne.number << endl;
     }
     return 0;
+}
+
+void saveStudentsToFile(Student students[], int count, string &filename) {
+    ofstream ofs(filename);
+    if (!ofs) {
+        cerr << "Error: no se pudo abrir el archivo para escribir: " << filename << endl;
+        return;
+    }
+    // Optionally, write a header line
+    ofs << "name,email,code,year,number\n";
+    for (int i = 0; i < count; i++) {
+        const Student &s = students[i];
+        // You can choose your format (CSV, space-separated, etc.)
+        ofs 
+          << s.name << ","
+          << s.email << ","
+          << s.carne.code << ","
+          << s.carne.year << ","
+          << s.carne.number;
+        ofs << "\n";
+    }
+    ofs.close();
+    cout << "Datos guardados en: " << filename << endl;
+}
+
+int loadStudentsFromFile(Student students[], int maxCount, string &filename) {
+    ifstream ifs(filename);
+    if (!ifs) {
+        cerr << "Error: no se pudo abrir el archivo para lectura: " << filename << endl;
+        return 0;
+    }
+
+    string line;
+    int count = 0;
+
+    // Skip header
+    getline(ifs, line);
+
+    while (getline(ifs, line) && count < maxCount) {
+        stringstream ss(line);
+        string name, email, code, yearStr, numberStr;
+
+        getline(ss, name, ',');
+        getline(ss, email, ',');
+        getline(ss, code, ',');
+        getline(ss, yearStr, ',');
+        getline(ss, numberStr, ',');
+
+        Student s;
+        s.name = name;
+        s.email = email;
+        s.carne.code = code;
+        s.carne.year = stoi(yearStr);
+        s.carne.number = stoi(numberStr);
+
+        students[count++] = s;
+    }
+
+    ifs.close();
+    return count;
 }
