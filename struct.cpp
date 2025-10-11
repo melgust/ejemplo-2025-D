@@ -19,7 +19,10 @@ typedef struct
 
 int main()
 {
-    int total = 3;
+    int total;
+    cout << "Cuantos alumnos quiere ingresar?: ";
+    cin >> total;
+    cin.ignore();
     Student students[total];
     cout << "Bienvenido a la clase de struct - UMG \n";
     for (int i = 0; i < total; i++)
